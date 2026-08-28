@@ -1,0 +1,33 @@
+{
+  "date": "2026-08-28",
+  "created_at": "2026-08-28T14:00:00+09:00",
+  "updated_at": "2026-08-28T16:20:11+09:00",
+  "visitors": [
+    {
+      "visitor_id": "P0001",
+      "tracker_id": 1,
+      "first_seen": "2026-08-28T14:03:12+09:00",
+      "last_seen": "2026-08-28T14:15:22+09:00",
+      "first_seen_time": "14:03:12",
+      "last_seen_time": "14:15:22",
+      "duration_seconds": 730,
+      "status": "left",
+      "appearance": {
+        "upper": {
+          "type": "t-shirt",
+          "color": "light_gray",
+          "color_ko": "밝은 회색",
+          "stability": 0.933
+        },
+        "lower": {
+          "type": "pants",
+          "color": "black",
+          "color_ko": "검정",
+          "stability": 1.0
+        },
+        "description": "밝은 회색 t-shirt / 검정 pants"
+      },
+      "appearance_history": []
+    }
+  ]
+}

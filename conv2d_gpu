@@ -1,0 +1,43 @@
+def convolution2d_cp(image, kernel, bias=0.0, stride=1, padding=0):
+    """
+    CuPy를 이용한 2차원 convolution.
+
+    커널의 위치는 Python 반복문으로 순차 처리하고,
+    각 위치에 해당하는 출력 배열 전체 연산은 GPU에서 처리한다.
+    """
+
+    image_height, image_width = image.shape
+    kernel_height, kernel_width = kernel.shape
+
+    # GPU 배열에 padding 적용
+    padded_image = cp.pad(
+        image,
+        ((padding, padding), (padding, padding)),
+        mode="constant",
+        constant_values=0
+    )
+
+    # 출력 배열 크기 계산
+    output_height = (padded_image.shape[0] - kernel_height) // stride + 1
+    output_width = (padded_image.shape[1] - kernel_width) // stride + 1
+
+    # 출력 배열 생성
+    output = cp.zeros((output_height, output_width), dtype=cp.float32)
+
+    # 커널의 각 원소를 순차적으로 선택
+    for kernel_y in range(kernel_height):
+        for kernel_x in range(kernel_width):
+
+            # 모든 출력 위치에서 현재 커널 원소와 대응되는 입력 픽셀들을 선택
+            image_region = padded_image[
+                kernel_y:kernel_y + output_height * stride:stride,
+                kernel_x:kernel_x + output_width * stride:stride
+            ]
+
+            # 현재 커널 원소가 모든 출력 픽셀에 미치는 값 누적
+            output += image_region * kernel[kernel_y, kernel_x]
+
+    # 모든 출력 픽셀에 동일한 bias 추가
+    output += bias
+
+    return output

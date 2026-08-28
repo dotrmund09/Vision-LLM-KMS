@@ -1,4 +1,9 @@
 .venv/*
+.piper_venv/*
+images/*
 src/models/*
 src/dataset/*
-
+.env
+whisper.cpp/*
+weights/*
+yolov8s-worldv2.pt

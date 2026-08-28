@@ -1,0 +1,27 @@
+# Jetson Orin Nano / JetPack 6.2
+# IMPORTANT:
+# - Do NOT put torch/torchvision here. Install Jetson CUDA wheels separately.
+# - Do NOT install opencv-python/opencv-contrib-python in this venv.
+#   Keep JetPack/system OpenCV so GStreamer support remains available.
+# - Do NOT install pip TensorRT/CUDA packages. Use JetPack's system stack.
+
+numpy>=1.23,<2
+filelock>=3.16.1,<4
+matplotlib>=3.3
+pillow>=7.1.2
+pyyaml>=5.3.1
+requests>=2.23.0
+psutil>=5.8.0
+polars>=0.20.0
+nvidia-ml-py>=12.0.0
+ultralytics-thop>=2.1.2
+ftfy
+regex
+tqdm
+packaging
+
+# Install Ultralytics itself separately with --no-deps:
+# python -m pip install --no-deps ultralytics==8.4.131
+#
+# Install CLIP separately with --no-deps after the packages above:
+# python -m pip install --no-deps git+https://github.com/ultralytics/CLIP.git

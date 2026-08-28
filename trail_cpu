@@ -1,0 +1,25 @@
+def motion_trail_np(image, weights):
+    """
+    NumPy를 이용해 이미지 잔상 효과를 생성한다.
+
+    출력 픽셀을 Python 반복문으로 하나씩 계산한다.
+    """
+
+    image_height, image_width = image.shape
+    trail_length = len(weights)
+
+    output = np.zeros((image_height, image_width), dtype=np.float32)
+
+    for output_y in range(image_height):
+        for output_x in range(image_width):
+            weighted_sum = 0.0
+
+            for shift in range(trail_length):
+                input_x = output_x - shift
+
+                if input_x >= 0:
+                    weighted_sum += image[output_y, input_x] * weights[shift]
+
+            output[output_y, output_x] = weighted_sum
+
+    return output

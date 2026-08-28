@@ -1,0 +1,38 @@
+# TODO: Confidence Thresholding 함수 정의
+# TODO: Confidence Score가 특정 임계값보다 낮으면 해당 BBox 제거
+
+def prune_low_conf(boxes, scores, conf_threshold=0.5):
+    """
+    Confidence Thresholding 적용
+
+    Parameters
+    ----------
+    boxes : list
+        Bounding Box 목록
+        각 박스는 (x1, y1, x2, y2) 형식
+
+    scores : list
+        각 Bounding Box의 Confidence Score
+
+    conf_threshold : float
+        Bounding Box를 유지하기 위한 최소 Confidence Score
+
+    Returns
+    -------
+    pruned_boxes : list
+        Confidence Score가 임계값 이상인 Bounding Box 목록
+
+    pruned_scores : list
+        Confidence Score가 임계값 이상인 Bounding Box의 Confidence Score 목록
+    """
+
+    # pass
+    pruned_boxes = []
+    pruned_scores = []
+
+    for box, score in zip(boxes, scores):
+        if score >= conf_threshold:
+            pruned_boxes.append(box)
+            pruned_scores.append(score)
+
+    return pruned_boxes, pruned_scores

@@ -1,0 +1,68 @@
+# TODO: NMS 함수 정의
+# TODO: np.sort() 함수를 사용하면 1차원 배열을 정렬
+# TODO: np.argsort() 함수를 사용하면 1차원 배열의 정렬된 인덱스를 반환
+
+def apply_nms(boxes, scores, iou_threshold=0.5):
+    """
+    NMS 적용
+
+    Parameters
+    ----------
+    boxes : list
+        Bounding Box 목록
+        각 박스는 (x1, y1, x2, y2) 형식
+
+    scores : list
+        각 Bounding Box의 Confidence Score
+
+    iou_threshold : float
+        중복 Bounding Box를 제거할 IoU 기준값
+
+    Returns
+    -------
+    nms_boxes : list
+        NMS 적용 후 유지된 Bounding Box 목록
+
+    nms_scores : list
+        NMS 적용 후 유지된 Bounding Box의 Confidence Score 목록
+    """
+
+    # pass
+    boxes = np.array(boxes, dtype=np.float32)
+    scores = np.array(scores, dtype=np.float32)
+
+    # Confidence Score가 높은 순서대로 index 정렬
+    sorted_indices = np.argsort(scores)[::-1]
+
+    keep_indices = []
+
+    while len(sorted_indices) > 0:
+        # 현재 가장 높은 Confidence Score를 가진 박스 선택
+        current_index = sorted_indices[0]
+        keep_indices.append(current_index)
+
+        # 비교할 나머지 박스가 없다면 종료
+        if len(sorted_indices) == 1:
+            break
+
+        remaining_indices = sorted_indices[1:]
+        remaining_boxes = boxes[remaining_indices]
+
+        iou_values = []
+
+        # 선택된 박스와 나머지 박스들의 IoU 계산
+        for remaining_box in remaining_boxes:
+            iou = calculate_iou(boxes[current_index], remaining_box)
+            iou_values.append(iou)
+
+        iou_values = np.array(iou_values)
+
+        # IoU가 Threshold 이하인 박스만 유지
+        sorted_indices = remaining_indices[
+            iou_values <= iou_threshold
+        ]
+
+    nms_boxes = boxes[keep_indices].astype(int).tolist()
+    nms_scores = scores[keep_indices].tolist()
+
+    return nms_boxes, nms_scores

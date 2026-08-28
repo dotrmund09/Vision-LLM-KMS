@@ -1,0 +1,20 @@
+def motion_trail_cp(image, weights):
+    """
+    CuPy를 이용해 이미지 잔상 효과를 생성한다.
+
+    이동 거리는 Python에서 순차적으로 반복하지만,
+    각 이동 거리의 이미지 전체 계산은 GPU에서 병렬 처리한다.
+    """
+
+    image_height, image_width = image.shape
+    trail_length = len(weights)
+
+    output = cp.zeros((image_height, image_width), dtype=cp.float32)
+
+    for shift in range(trail_length):
+        input_region = image[:, :image_width - shift]
+        output_region = output[:, shift:]
+
+        output_region += input_region * weights[shift]
+
+    return output
